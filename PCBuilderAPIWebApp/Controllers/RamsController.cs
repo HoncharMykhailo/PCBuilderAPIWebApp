@@ -11,47 +11,47 @@ namespace PCBuilderAPIWebApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BrandsController : ControllerBase
+    public class RamsController : ControllerBase
     {
         private readonly PCBuilderAPIContext _context;
 
-        public BrandsController(PCBuilderAPIContext context)
+        public RamsController(PCBuilderAPIContext context)
         {
             _context = context;
         }
 
-        // GET: api/Brands
+        // GET: api/Rams
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Brand>>> GetBrands()
+        public async Task<ActionResult<IEnumerable<Ram>>> GetRams()
         {
-            return await _context.Brands.ToListAsync();
+            return await _context.Rams.ToListAsync();
         }
 
-        // GET: api/Brands/5
+        // GET: api/Rams/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Brand>> GetBrand(int id)
+        public async Task<ActionResult<Ram>> GetRam(int id)
         {
-            var brand = await _context.Brands.FindAsync(id);
+            var ram = await _context.Rams.FindAsync(id);
 
-            if (brand == null)
+            if (ram == null)
             {
                 return NotFound();
             }
 
-            return brand;
+            return ram;
         }
 
-        // PUT: api/Brands/5
+        // PUT: api/Rams/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBrand(int id, Brand brand)
+        public async Task<IActionResult> PutRam(int id, Ram ram)
         {
-            if (id != brand.Id)
+            if (id != ram.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(brand).State = EntityState.Modified;
+            _context.Entry(ram).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace PCBuilderAPIWebApp.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BrandExists(id))
+                if (!RamExists(id))
                 {
                     return NotFound();
                 }
@@ -72,36 +72,36 @@ namespace PCBuilderAPIWebApp.Controllers
             return NoContent();
         }
 
-        // POST: api/Brands
+        // POST: api/Rams
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Brand>> PostBrand(Brand brand)
+        public async Task<ActionResult<Ram>> PostRam(Ram ram)
         {
-            _context.Brands.Add(brand);
+            _context.Rams.Add(ram);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBrand", new { id = brand.Id }, brand);
+            return CreatedAtAction("GetRam", new { id = ram.Id }, ram);
         }
 
-        // DELETE: api/Brands/5
+        // DELETE: api/Rams/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBrand(int id)
+        public async Task<IActionResult> DeleteRam(int id)
         {
-            var brand = await _context.Brands.FindAsync(id);
-            if (brand == null)
+            var ram = await _context.Rams.FindAsync(id);
+            if (ram == null)
             {
                 return NotFound();
             }
 
-            _context.Brands.Remove(brand);
+            _context.Rams.Remove(ram);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool BrandExists(int id)
+        private bool RamExists(int id)
         {
-            return _context.Brands.Any(e => e.Id == id);
+            return _context.Rams.Any(e => e.Id == id);
         }
     }
 }

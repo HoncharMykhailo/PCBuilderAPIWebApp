@@ -4,7 +4,7 @@
     {
         public Memory()
         {
-            Motherbords = new List<Motherboard>();
+            Motherboards = new List<Motherboard>();
         }
         public int Id { get; set; }
         public string Name { get; set; }
@@ -14,6 +14,6 @@
         public string Type { get; set; }
         public virtual Brand Brand { get; set; }
         public int BrandId { get; set; }
-        public virtual ICollection<Motherboard> Motherbords { get; set; }
+        public virtual ICollection<Motherboard> Motherboards { get; set; }
     }
 }

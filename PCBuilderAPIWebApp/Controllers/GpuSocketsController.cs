@@ -11,47 +11,47 @@ namespace PCBuilderAPIWebApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BrandsController : ControllerBase
+    public class GpuSocketsController : ControllerBase
     {
         private readonly PCBuilderAPIContext _context;
 
-        public BrandsController(PCBuilderAPIContext context)
+        public GpuSocketsController(PCBuilderAPIContext context)
         {
             _context = context;
         }
 
-        // GET: api/Brands
+        // GET: api/GpuSockets
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Brand>>> GetBrands()
+        public async Task<ActionResult<IEnumerable<GpuSocket>>> GetGPUSockets()
         {
-            return await _context.Brands.ToListAsync();
+            return await _context.GPUSockets.ToListAsync();
         }
 
-        // GET: api/Brands/5
+        // GET: api/GpuSockets/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Brand>> GetBrand(int id)
+        public async Task<ActionResult<GpuSocket>> GetGpuSocket(int id)
         {
-            var brand = await _context.Brands.FindAsync(id);
+            var gpuSocket = await _context.GPUSockets.FindAsync(id);
 
-            if (brand == null)
+            if (gpuSocket == null)
             {
                 return NotFound();
             }
 
-            return brand;
+            return gpuSocket;
         }
 
-        // PUT: api/Brands/5
+        // PUT: api/GpuSockets/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBrand(int id, Brand brand)
+        public async Task<IActionResult> PutGpuSocket(int id, GpuSocket gpuSocket)
         {
-            if (id != brand.Id)
+            if (id != gpuSocket.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(brand).State = EntityState.Modified;
+            _context.Entry(gpuSocket).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace PCBuilderAPIWebApp.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BrandExists(id))
+                if (!GpuSocketExists(id))
                 {
                     return NotFound();
                 }
@@ -72,36 +72,36 @@ namespace PCBuilderAPIWebApp.Controllers
             return NoContent();
         }
 
-        // POST: api/Brands
+        // POST: api/GpuSockets
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Brand>> PostBrand(Brand brand)
+        public async Task<ActionResult<GpuSocket>> PostGpuSocket(GpuSocket gpuSocket)
         {
-            _context.Brands.Add(brand);
+            _context.GPUSockets.Add(gpuSocket);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBrand", new { id = brand.Id }, brand);
+            return CreatedAtAction("GetGpuSocket", new { id = gpuSocket.Id }, gpuSocket);
         }
 
-        // DELETE: api/Brands/5
+        // DELETE: api/GpuSockets/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBrand(int id)
+        public async Task<IActionResult> DeleteGpuSocket(int id)
         {
-            var brand = await _context.Brands.FindAsync(id);
-            if (brand == null)
+            var gpuSocket = await _context.GPUSockets.FindAsync(id);
+            if (gpuSocket == null)
             {
                 return NotFound();
             }
 
-            _context.Brands.Remove(brand);
+            _context.GPUSockets.Remove(gpuSocket);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool BrandExists(int id)
+        private bool GpuSocketExists(int id)
         {
-            return _context.Brands.Any(e => e.Id == id);
+            return _context.GPUSockets.Any(e => e.Id == id);
         }
     }
 }

@@ -11,47 +11,47 @@ namespace PCBuilderAPIWebApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BrandsController : ControllerBase
+    public class GpusController : ControllerBase
     {
         private readonly PCBuilderAPIContext _context;
 
-        public BrandsController(PCBuilderAPIContext context)
+        public GpusController(PCBuilderAPIContext context)
         {
             _context = context;
         }
 
-        // GET: api/Brands
+        // GET: api/Gpus
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Brand>>> GetBrands()
+        public async Task<ActionResult<IEnumerable<Gpu>>> GetGpus()
         {
-            return await _context.Brands.ToListAsync();
+            return await _context.Gpus.ToListAsync();
         }
 
-        // GET: api/Brands/5
+        // GET: api/Gpus/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Brand>> GetBrand(int id)
+        public async Task<ActionResult<Gpu>> GetGpu(int id)
         {
-            var brand = await _context.Brands.FindAsync(id);
+            var gpu = await _context.Gpus.FindAsync(id);
 
-            if (brand == null)
+            if (gpu == null)
             {
                 return NotFound();
             }
 
-            return brand;
+            return gpu;
         }
 
-        // PUT: api/Brands/5
+        // PUT: api/Gpus/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBrand(int id, Brand brand)
+        public async Task<IActionResult> PutGpu(int id, Gpu gpu)
         {
-            if (id != brand.Id)
+            if (id != gpu.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(brand).State = EntityState.Modified;
+            _context.Entry(gpu).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace PCBuilderAPIWebApp.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BrandExists(id))
+                if (!GpuExists(id))
                 {
                     return NotFound();
                 }
@@ -72,36 +72,36 @@ namespace PCBuilderAPIWebApp.Controllers
             return NoContent();
         }
 
-        // POST: api/Brands
+        // POST: api/Gpus
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Brand>> PostBrand(Brand brand)
+        public async Task<ActionResult<Gpu>> PostGpu(Gpu gpu)
         {
-            _context.Brands.Add(brand);
+            _context.Gpus.Add(gpu);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBrand", new { id = brand.Id }, brand);
+            return CreatedAtAction("GetGpu", new { id = gpu.Id }, gpu);
         }
 
-        // DELETE: api/Brands/5
+        // DELETE: api/Gpus/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBrand(int id)
+        public async Task<IActionResult> DeleteGpu(int id)
         {
-            var brand = await _context.Brands.FindAsync(id);
-            if (brand == null)
+            var gpu = await _context.Gpus.FindAsync(id);
+            if (gpu == null)
             {
                 return NotFound();
             }
 
-            _context.Brands.Remove(brand);
+            _context.Gpus.Remove(gpu);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool BrandExists(int id)
+        private bool GpuExists(int id)
         {
-            return _context.Brands.Any(e => e.Id == id);
+            return _context.Gpus.Any(e => e.Id == id);
         }
     }
 }

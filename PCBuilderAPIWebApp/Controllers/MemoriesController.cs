@@ -11,47 +11,48 @@ namespace PCBuilderAPIWebApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BrandsController : ControllerBase
+    public class MemoriesController : ControllerBase
     {
         private readonly PCBuilderAPIContext _context;
 
-        public BrandsController(PCBuilderAPIContext context)
+        public MemoriesController(PCBuilderAPIContext context)
         {
             _context = context;
+           
         }
 
-        // GET: api/Brands
+        // GET: api/Memories
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Brand>>> GetBrands()
+        public async Task<ActionResult<IEnumerable<Memory>>> GetMemories()
         {
-            return await _context.Brands.ToListAsync();
+            return await _context.Memories.ToListAsync();
         }
 
-        // GET: api/Brands/5
+        // GET: api/Memories/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Brand>> GetBrand(int id)
+        public async Task<ActionResult<Memory>> GetMemory(int id)
         {
-            var brand = await _context.Brands.FindAsync(id);
+            var memory = await _context.Memories.FindAsync(id);
 
-            if (brand == null)
+            if (memory == null)
             {
                 return NotFound();
             }
 
-            return brand;
+            return memory;
         }
 
-        // PUT: api/Brands/5
+        // PUT: api/Memories/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBrand(int id, Brand brand)
+        public async Task<IActionResult> PutMemory(int id, Memory memory)
         {
-            if (id != brand.Id)
+            if (id != memory.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(brand).State = EntityState.Modified;
+            _context.Entry(memory).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +60,7 @@ namespace PCBuilderAPIWebApp.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BrandExists(id))
+                if (!MemoryExists(id))
                 {
                     return NotFound();
                 }
@@ -72,36 +73,36 @@ namespace PCBuilderAPIWebApp.Controllers
             return NoContent();
         }
 
-        // POST: api/Brands
+        // POST: api/Memories
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Brand>> PostBrand(Brand brand)
+        public async Task<ActionResult<Memory>> PostMemory(Memory memory)
         {
-            _context.Brands.Add(brand);
+            _context.Memories.Add(memory);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBrand", new { id = brand.Id }, brand);
+            return CreatedAtAction("GetMemory", new { id = memory.Id }, memory);
         }
 
-        // DELETE: api/Brands/5
+        // DELETE: api/Memories/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBrand(int id)
+        public async Task<IActionResult> DeleteMemory(int id)
         {
-            var brand = await _context.Brands.FindAsync(id);
-            if (brand == null)
+            var memory = await _context.Memories.FindAsync(id);
+            if (memory == null)
             {
                 return NotFound();
             }
 
-            _context.Brands.Remove(brand);
+            _context.Memories.Remove(memory);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool BrandExists(int id)
+        private bool MemoryExists(int id)
         {
-            return _context.Brands.Any(e => e.Id == id);
+            return _context.Memories.Any(e => e.Id == id);
         }
     }
 }

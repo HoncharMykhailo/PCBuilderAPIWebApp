@@ -11,47 +11,47 @@ namespace PCBuilderAPIWebApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BrandsController : ControllerBase
+    public class ProcessorsController : ControllerBase
     {
         private readonly PCBuilderAPIContext _context;
 
-        public BrandsController(PCBuilderAPIContext context)
+        public ProcessorsController(PCBuilderAPIContext context)
         {
             _context = context;
         }
 
-        // GET: api/Brands
+        // GET: api/Processors
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Brand>>> GetBrands()
+        public async Task<ActionResult<IEnumerable<Processor>>> GetProcessors()
         {
-            return await _context.Brands.ToListAsync();
+            return await _context.Processors.ToListAsync();
         }
 
-        // GET: api/Brands/5
+        // GET: api/Processors/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Brand>> GetBrand(int id)
+        public async Task<ActionResult<Processor>> GetProcessor(int id)
         {
-            var brand = await _context.Brands.FindAsync(id);
+            var processor = await _context.Processors.FindAsync(id);
 
-            if (brand == null)
+            if (processor == null)
             {
                 return NotFound();
             }
 
-            return brand;
+            return processor;
         }
 
-        // PUT: api/Brands/5
+        // PUT: api/Processors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBrand(int id, Brand brand)
+        public async Task<IActionResult> PutProcessor(int id, Processor processor)
         {
-            if (id != brand.Id)
+            if (id != processor.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(brand).State = EntityState.Modified;
+            _context.Entry(processor).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace PCBuilderAPIWebApp.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BrandExists(id))
+                if (!ProcessorExists(id))
                 {
                     return NotFound();
                 }
@@ -72,36 +72,36 @@ namespace PCBuilderAPIWebApp.Controllers
             return NoContent();
         }
 
-        // POST: api/Brands
+        // POST: api/Processors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Brand>> PostBrand(Brand brand)
+        public async Task<ActionResult<Processor>> PostProcessor(Processor processor)
         {
-            _context.Brands.Add(brand);
+            _context.Processors.Add(processor);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBrand", new { id = brand.Id }, brand);
+            return CreatedAtAction("GetProcessor", new { id = processor.Id }, processor);
         }
 
-        // DELETE: api/Brands/5
+        // DELETE: api/Processors/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBrand(int id)
+        public async Task<IActionResult> DeleteProcessor(int id)
         {
-            var brand = await _context.Brands.FindAsync(id);
-            if (brand == null)
+            var processor = await _context.Processors.FindAsync(id);
+            if (processor == null)
             {
                 return NotFound();
             }
 
-            _context.Brands.Remove(brand);
+            _context.Processors.Remove(processor);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool BrandExists(int id)
+        private bool ProcessorExists(int id)
         {
-            return _context.Brands.Any(e => e.Id == id);
+            return _context.Processors.Any(e => e.Id == id);
         }
     }
 }

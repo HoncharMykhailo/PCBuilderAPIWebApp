@@ -11,47 +11,47 @@ namespace PCBuilderAPIWebApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BrandsController : ControllerBase
+    public class FormFactorsController : ControllerBase
     {
         private readonly PCBuilderAPIContext _context;
 
-        public BrandsController(PCBuilderAPIContext context)
+        public FormFactorsController(PCBuilderAPIContext context)
         {
             _context = context;
         }
 
-        // GET: api/Brands
+        // GET: api/FormFactors
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Brand>>> GetBrands()
+        public async Task<ActionResult<IEnumerable<FormFactor>>> GetFormFactors()
         {
-            return await _context.Brands.ToListAsync();
+            return await _context.FormFactors.ToListAsync();
         }
 
-        // GET: api/Brands/5
+        // GET: api/FormFactors/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Brand>> GetBrand(int id)
+        public async Task<ActionResult<FormFactor>> GetFormFactor(int id)
         {
-            var brand = await _context.Brands.FindAsync(id);
+            var formFactor = await _context.FormFactors.FindAsync(id);
 
-            if (brand == null)
+            if (formFactor == null)
             {
                 return NotFound();
             }
 
-            return brand;
+            return formFactor;
         }
 
-        // PUT: api/Brands/5
+        // PUT: api/FormFactors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBrand(int id, Brand brand)
+        public async Task<IActionResult> PutFormFactor(int id, FormFactor formFactor)
         {
-            if (id != brand.Id)
+            if (id != formFactor.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(brand).State = EntityState.Modified;
+            _context.Entry(formFactor).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace PCBuilderAPIWebApp.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BrandExists(id))
+                if (!FormFactorExists(id))
                 {
                     return NotFound();
                 }
@@ -72,36 +72,37 @@ namespace PCBuilderAPIWebApp.Controllers
             return NoContent();
         }
 
-        // POST: api/Brands
+        // POST: api/FormFactors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Brand>> PostBrand(Brand brand)
+        public async Task<ActionResult<FormFactor>> PostFormFactor(FormFactor formFactor)
         {
-            _context.Brands.Add(brand);
+            _context.FormFactors.Add(formFactor);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBrand", new { id = brand.Id }, brand);
+            return CreatedAtAction("GetFormFactor", new { id = formFactor.Id }, formFactor);
         }
 
-        // DELETE: api/Brands/5
+        // DELETE: api/FormFactors/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBrand(int id)
+        public async Task<IActionResult> DeleteFormFactor(int id)
         {
-            var brand = await _context.Brands.FindAsync(id);
-            if (brand == null)
+            var formFactor = await _context.FormFactors.FindAsync(id);
+            if (formFactor == null)
             {
                 return NotFound();
             }
 
-            _context.Brands.Remove(brand);
+            _context.FormFactors.Remove(formFactor);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool BrandExists(int id)
+        private bool FormFactorExists(int id)
         {
-            return _context.Brands.Any(e => e.Id == id);
+            
+            return _context.FormFactors.Any(e => e.Id == id);
         }
     }
 }

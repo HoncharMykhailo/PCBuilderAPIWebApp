@@ -11,47 +11,47 @@ namespace PCBuilderAPIWebApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BrandsController : ControllerBase
+    public class CasesController : ControllerBase
     {
         private readonly PCBuilderAPIContext _context;
 
-        public BrandsController(PCBuilderAPIContext context)
+        public CasesController(PCBuilderAPIContext context)
         {
             _context = context;
         }
 
-        // GET: api/Brands
+        // GET: api/Cases
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Brand>>> GetBrands()
+        public async Task<ActionResult<IEnumerable<Case>>> GetCases()
         {
-            return await _context.Brands.ToListAsync();
+            return await _context.Cases.ToListAsync();
         }
 
-        // GET: api/Brands/5
+        // GET: api/Cases/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Brand>> GetBrand(int id)
+        public async Task<ActionResult<Case>> GetCase(int id)
         {
-            var brand = await _context.Brands.FindAsync(id);
+            var @case = await _context.Cases.FindAsync(id);
 
-            if (brand == null)
+            if (@case == null)
             {
                 return NotFound();
             }
 
-            return brand;
+            return @case;
         }
 
-        // PUT: api/Brands/5
+        // PUT: api/Cases/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBrand(int id, Brand brand)
+        public async Task<IActionResult> PutCase(int id, Case @case)
         {
-            if (id != brand.Id)
+            if (id != @case.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(brand).State = EntityState.Modified;
+            _context.Entry(@case).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace PCBuilderAPIWebApp.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BrandExists(id))
+                if (!CaseExists(id))
                 {
                     return NotFound();
                 }
@@ -72,36 +72,36 @@ namespace PCBuilderAPIWebApp.Controllers
             return NoContent();
         }
 
-        // POST: api/Brands
+        // POST: api/Cases
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Brand>> PostBrand(Brand brand)
+        public async Task<ActionResult<Case>> PostCase(Case @case)
         {
-            _context.Brands.Add(brand);
+            _context.Cases.Add(@case);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBrand", new { id = brand.Id }, brand);
+            return CreatedAtAction("GetCase", new { id = @case.Id }, @case);
         }
 
-        // DELETE: api/Brands/5
+        // DELETE: api/Cases/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBrand(int id)
+        public async Task<IActionResult> DeleteCase(int id)
         {
-            var brand = await _context.Brands.FindAsync(id);
-            if (brand == null)
+            var @case = await _context.Cases.FindAsync(id);
+            if (@case == null)
             {
                 return NotFound();
             }
 
-            _context.Brands.Remove(brand);
+            _context.Cases.Remove(@case);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool BrandExists(int id)
+        private bool CaseExists(int id)
         {
-            return _context.Brands.Any(e => e.Id == id);
+            return _context.Cases.Any(e => e.Id == id);
         }
     }
 }

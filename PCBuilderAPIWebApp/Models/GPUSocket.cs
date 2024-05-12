@@ -1,8 +1,8 @@
 ﻿namespace PCBuilderAPIWebApp.Models
 {
-    public class GPUSocket
+    public class GpuSocket
     {
-        public GPUSocket()
+        public GpuSocket()
         {
             Motherboards = new List<Motherboard>();
             Gpus = new List<Gpu>();

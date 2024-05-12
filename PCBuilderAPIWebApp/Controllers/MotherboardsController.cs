@@ -11,47 +11,47 @@ namespace PCBuilderAPIWebApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BrandsController : ControllerBase
+    public class MotherboardsController : ControllerBase
     {
         private readonly PCBuilderAPIContext _context;
 
-        public BrandsController(PCBuilderAPIContext context)
+        public MotherboardsController(PCBuilderAPIContext context)
         {
             _context = context;
         }
 
-        // GET: api/Brands
+        // GET: api/Motherboards
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Brand>>> GetBrands()
+        public async Task<ActionResult<IEnumerable<Motherboard>>> GetMotherboards()
         {
-            return await _context.Brands.ToListAsync();
+            return await _context.Motherboards.ToListAsync();
         }
 
-        // GET: api/Brands/5
+        // GET: api/Motherboards/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Brand>> GetBrand(int id)
+        public async Task<ActionResult<Motherboard>> GetMotherboard(int id)
         {
-            var brand = await _context.Brands.FindAsync(id);
+            var motherboard = await _context.Motherboards.FindAsync(id);
 
-            if (brand == null)
+            if (motherboard == null)
             {
                 return NotFound();
             }
 
-            return brand;
+            return motherboard;
         }
 
-        // PUT: api/Brands/5
+        // PUT: api/Motherboards/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBrand(int id, Brand brand)
+        public async Task<IActionResult> PutMotherboard(int id, Motherboard motherboard)
         {
-            if (id != brand.Id)
+            if (id != motherboard.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(brand).State = EntityState.Modified;
+            _context.Entry(motherboard).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace PCBuilderAPIWebApp.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BrandExists(id))
+                if (!MotherboardExists(id))
                 {
                     return NotFound();
                 }
@@ -72,36 +72,36 @@ namespace PCBuilderAPIWebApp.Controllers
             return NoContent();
         }
 
-        // POST: api/Brands
+        // POST: api/Motherboards
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Brand>> PostBrand(Brand brand)
+        public async Task<ActionResult<Motherboard>> PostMotherboard(Motherboard motherboard)
         {
-            _context.Brands.Add(brand);
+            _context.Motherboards.Add(motherboard);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBrand", new { id = brand.Id }, brand);
+            return CreatedAtAction("GetMotherboard", new { id = motherboard.Id }, motherboard);
         }
 
-        // DELETE: api/Brands/5
+        // DELETE: api/Motherboards/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBrand(int id)
+        public async Task<IActionResult> DeleteMotherboard(int id)
         {
-            var brand = await _context.Brands.FindAsync(id);
-            if (brand == null)
+            var motherboard = await _context.Motherboards.FindAsync(id);
+            if (motherboard == null)
             {
                 return NotFound();
             }
 
-            _context.Brands.Remove(brand);
+            _context.Motherboards.Remove(motherboard);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool BrandExists(int id)
+        private bool MotherboardExists(int id)
         {
-            return _context.Brands.Any(e => e.Id == id);
+            return _context.Motherboards.Any(e => e.Id == id);
         }
     }
 }

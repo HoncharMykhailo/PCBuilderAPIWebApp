@@ -11,47 +11,47 @@ namespace PCBuilderAPIWebApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BrandsController : ControllerBase
+    public class CPUCoolersController : ControllerBase
     {
         private readonly PCBuilderAPIContext _context;
 
-        public BrandsController(PCBuilderAPIContext context)
+        public CPUCoolersController(PCBuilderAPIContext context)
         {
             _context = context;
         }
 
-        // GET: api/Brands
+        // GET: api/CPUCoolers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Brand>>> GetBrands()
+        public async Task<ActionResult<IEnumerable<CPUCooler>>> GetCPUCoolers()
         {
-            return await _context.Brands.ToListAsync();
+            return await _context.CPUCoolers.ToListAsync();
         }
 
-        // GET: api/Brands/5
+        // GET: api/CPUCoolers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Brand>> GetBrand(int id)
+        public async Task<ActionResult<CPUCooler>> GetCPUCooler(int id)
         {
-            var brand = await _context.Brands.FindAsync(id);
+            var cPUCooler = await _context.CPUCoolers.FindAsync(id);
 
-            if (brand == null)
+            if (cPUCooler == null)
             {
                 return NotFound();
             }
 
-            return brand;
+            return cPUCooler;
         }
 
-        // PUT: api/Brands/5
+        // PUT: api/CPUCoolers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBrand(int id, Brand brand)
+        public async Task<IActionResult> PutCPUCooler(int id, CPUCooler cPUCooler)
         {
-            if (id != brand.Id)
+            if (id != cPUCooler.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(brand).State = EntityState.Modified;
+            _context.Entry(cPUCooler).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace PCBuilderAPIWebApp.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BrandExists(id))
+                if (!CPUCoolerExists(id))
                 {
                     return NotFound();
                 }
@@ -72,36 +72,36 @@ namespace PCBuilderAPIWebApp.Controllers
             return NoContent();
         }
 
-        // POST: api/Brands
+        // POST: api/CPUCoolers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Brand>> PostBrand(Brand brand)
+        public async Task<ActionResult<CPUCooler>> PostCPUCooler(CPUCooler cPUCooler)
         {
-            _context.Brands.Add(brand);
+            _context.CPUCoolers.Add(cPUCooler);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBrand", new { id = brand.Id }, brand);
+            return CreatedAtAction("GetCPUCooler", new { id = cPUCooler.Id }, cPUCooler);
         }
 
-        // DELETE: api/Brands/5
+        // DELETE: api/CPUCoolers/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBrand(int id)
+        public async Task<IActionResult> DeleteCPUCooler(int id)
         {
-            var brand = await _context.Brands.FindAsync(id);
-            if (brand == null)
+            var cPUCooler = await _context.CPUCoolers.FindAsync(id);
+            if (cPUCooler == null)
             {
                 return NotFound();
             }
 
-            _context.Brands.Remove(brand);
+            _context.CPUCoolers.Remove(cPUCooler);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool BrandExists(int id)
+        private bool CPUCoolerExists(int id)
         {
-            return _context.Brands.Any(e => e.Id == id);
+            return _context.CPUCoolers.Any(e => e.Id == id);
         }
     }
 }

@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Informatics-2024-Lab2 PCBuilder</title>
+    <link rel="stylesheet" href="css/site.css" />
+</head>
+<body>
+    <h1>Informatics-2021-Lab2 Library</h1>
+    <h3>Add FormFactor</h3>
+    <form action="javascript:void(0);" method="POST" onsubmit="addFormFactor()">
+        <input type="text" id="add-name" placeholder="New FormFactor">
+        <input type="text" id="add-sizeCoefficient" placeholder="New size">
+        <input type="submit" value="Add">
+    </form>
+
+    <div id="editFormFactor">
+        <h3>Edit</h3>
+        <form action="javascript:void(0);" onsubmit="updateFormFactor()">
+            <input type="hidden" id="edit-id">
+            <input type="text" id="edit-name">
+            <input type="text" id="edit-sizeCoefficient">
+            <input type="submit" value="Save">
+            <a onclick="closeInput()" aria-label="Close">&#10006;</a>
+        </form>
+    </div>
+
+    <p id="counter"></p>
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Size</th>
+        </tr>
+        <tbody id="formFactors"></tbody>
+    </table>
+
+    <script src="js/Lab2.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        getFormFactors();
+    </script>
+</body>
+</html>

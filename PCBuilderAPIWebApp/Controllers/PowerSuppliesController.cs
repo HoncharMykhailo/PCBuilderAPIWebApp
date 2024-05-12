@@ -11,47 +11,47 @@ namespace PCBuilderAPIWebApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BrandsController : ControllerBase
+    public class PowerSuppliesController : ControllerBase
     {
         private readonly PCBuilderAPIContext _context;
 
-        public BrandsController(PCBuilderAPIContext context)
+        public PowerSuppliesController(PCBuilderAPIContext context)
         {
             _context = context;
         }
 
-        // GET: api/Brands
+        // GET: api/PowerSupplies
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Brand>>> GetBrands()
+        public async Task<ActionResult<IEnumerable<PowerSupply>>> GetPowerSupplies()
         {
-            return await _context.Brands.ToListAsync();
+            return await _context.PowerSupplies.ToListAsync();
         }
 
-        // GET: api/Brands/5
+        // GET: api/PowerSupplies/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Brand>> GetBrand(int id)
+        public async Task<ActionResult<PowerSupply>> GetPowerSupply(int id)
         {
-            var brand = await _context.Brands.FindAsync(id);
+            var powerSupply = await _context.PowerSupplies.FindAsync(id);
 
-            if (brand == null)
+            if (powerSupply == null)
             {
                 return NotFound();
             }
 
-            return brand;
+            return powerSupply;
         }
 
-        // PUT: api/Brands/5
+        // PUT: api/PowerSupplies/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBrand(int id, Brand brand)
+        public async Task<IActionResult> PutPowerSupply(int id, PowerSupply powerSupply)
         {
-            if (id != brand.Id)
+            if (id != powerSupply.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(brand).State = EntityState.Modified;
+            _context.Entry(powerSupply).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace PCBuilderAPIWebApp.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BrandExists(id))
+                if (!PowerSupplyExists(id))
                 {
                     return NotFound();
                 }
@@ -72,36 +72,36 @@ namespace PCBuilderAPIWebApp.Controllers
             return NoContent();
         }
 
-        // POST: api/Brands
+        // POST: api/PowerSupplies
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Brand>> PostBrand(Brand brand)
+        public async Task<ActionResult<PowerSupply>> PostPowerSupply(PowerSupply powerSupply)
         {
-            _context.Brands.Add(brand);
+            _context.PowerSupplies.Add(powerSupply);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBrand", new { id = brand.Id }, brand);
+            return CreatedAtAction("GetPowerSupply", new { id = powerSupply.Id }, powerSupply);
         }
 
-        // DELETE: api/Brands/5
+        // DELETE: api/PowerSupplies/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBrand(int id)
+        public async Task<IActionResult> DeletePowerSupply(int id)
         {
-            var brand = await _context.Brands.FindAsync(id);
-            if (brand == null)
+            var powerSupply = await _context.PowerSupplies.FindAsync(id);
+            if (powerSupply == null)
             {
                 return NotFound();
             }
 
-            _context.Brands.Remove(brand);
+            _context.PowerSupplies.Remove(powerSupply);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool BrandExists(int id)
+        private bool PowerSupplyExists(int id)
         {
-            return _context.Brands.Any(e => e.Id == id);
+            return _context.PowerSupplies.Any(e => e.Id == id);
         }
     }
 }
