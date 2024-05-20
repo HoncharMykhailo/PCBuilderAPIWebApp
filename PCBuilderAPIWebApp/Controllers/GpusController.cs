@@ -21,17 +21,41 @@ namespace PCBuilderAPIWebApp.Controllers
         }
 
         // GET: api/Gpus
+
+        /*
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Gpu>>> GetGpus()
         {
-            return await _context.Gpus.ToListAsync();
+            return await _context.Gpus
+                .Include(c => c.Brand)
+                .Include(c => c.FormFactor)
+                .Include(c => c.GpuSocket)
+                .ToListAsync();
+        }*/
+
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Gpu>>> GetGpus()
+        {
+            var gpus = await _context.Gpus
+                .Include(c => c.Brand)
+                .Include(c => c.FormFactor)
+                .Include(c => c.GpuSocket)
+                .ToListAsync();
+            return Ok(gpus); // Ensure it returns an array
         }
+
+
 
         // GET: api/Gpus/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Gpu>> GetGpu(int id)
         {
-            var gpu = await _context.Gpus.FindAsync(id);
+            var gpu = await _context.Gpus
+                .Include(c => c.Brand)
+                .Include(c => c.FormFactor)
+                .Include(c => c.GpuSocket)
+                .FirstOrDefaultAsync(c => c.Id == id);
 
             if (gpu == null)
             {
@@ -42,14 +66,39 @@ namespace PCBuilderAPIWebApp.Controllers
         }
 
         // PUT: api/Gpus/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutGpu(int id, Gpu gpu)
         {
             if (id != gpu.Id)
             {
-                return BadRequest();
+                return BadRequest("ID in URL does not match ID in body");
             }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var brand = await _context.Brands.FindAsync(gpu.BrandId);
+            if (brand == null)
+            {
+                return NotFound("Brand not found");
+            }
+            gpu.Brand = brand;
+
+            var formFactor = await _context.FormFactors.FindAsync(gpu.FormFactorId);
+            if (formFactor == null)
+            {
+                return NotFound("FormFactor not found");
+            }
+            gpu.FormFactor = formFactor;
+
+            var gpuSocket = await _context.GPUSockets.FindAsync(gpu.GpuSocketId);
+            if (gpuSocket == null)
+            {
+                return NotFound("GpuSocket not found");
+            }
+            gpu.GpuSocket = gpuSocket;
 
             _context.Entry(gpu).State = EntityState.Modified;
 
@@ -73,10 +122,35 @@ namespace PCBuilderAPIWebApp.Controllers
         }
 
         // POST: api/Gpus
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Gpu>> PostGpu(Gpu gpu)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var brand = await _context.Brands.FindAsync(gpu.BrandId);
+            if (brand == null)
+            {
+                return NotFound("Brand not found");
+            }
+            gpu.Brand = brand;
+
+            var formFactor = await _context.FormFactors.FindAsync(gpu.FormFactorId);
+            if (formFactor == null)
+            {
+                return NotFound("FormFactor not found");
+            }
+            gpu.FormFactor = formFactor;
+
+            var gpuSocket = await _context.GPUSockets.FindAsync(gpu.GpuSocketId);
+            if (gpuSocket == null)
+            {
+                return NotFound("GpuSocket not found");
+            }
+            gpu.GpuSocket = gpuSocket;
+
             _context.Gpus.Add(gpu);
             await _context.SaveChangesAsync();
 

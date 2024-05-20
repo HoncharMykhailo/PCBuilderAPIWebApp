@@ -24,14 +24,24 @@ namespace PCBuilderAPIWebApp.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Processor>>> GetProcessors()
         {
-            return await _context.Processors.ToListAsync();
+          // return await _context.Processors.ToListAsync();
+
+            return await _context.Processors
+                .Include(c => c.Brand)
+                .Include(c => c.ProcessorSocket)
+                .ToListAsync();
         }
 
         // GET: api/Processors/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Processor>> GetProcessor(int id)
         {
-            var processor = await _context.Processors.FindAsync(id);
+            // var processor = await _context.Processors.FindAsync(id);
+
+            var processor = await _context.Processors
+                .Include(c => c.Brand)
+                .Include(c => c.ProcessorSocket)
+                .FirstOrDefaultAsync(c => c.Id == id);
 
             if (processor == null)
             {
@@ -50,6 +60,24 @@ namespace PCBuilderAPIWebApp.Controllers
             {
                 return BadRequest();
             }
+
+            var brand = await _context.Brands.FindAsync(processor.BrandId);
+            if (brand == null)
+            {
+                return NotFound("Brand not found");
+            }
+
+            processor.Brand = brand;
+
+            var socket = await _context.ProcessorSockets.FindAsync(processor.ProcessorSocketId);
+            if (socket == null)
+            {
+                return NotFound("Socket not found");
+            }
+            processor.ProcessorSocket = socket;
+
+
+
 
             _context.Entry(processor).State = EntityState.Modified;
 
@@ -77,6 +105,22 @@ namespace PCBuilderAPIWebApp.Controllers
         [HttpPost]
         public async Task<ActionResult<Processor>> PostProcessor(Processor processor)
         {
+            var brand = await _context.Brands.FindAsync(processor.BrandId);
+            if (brand == null)
+            {
+                return NotFound("Brand not found");
+            }
+
+            processor.Brand = brand;
+
+            var socket = await _context.ProcessorSockets.FindAsync(processor.ProcessorSocketId);
+            if (socket == null)
+            {
+                return NotFound("Socket not found");
+            }
+            processor.ProcessorSocket = socket;
+
+
             _context.Processors.Add(processor);
             await _context.SaveChangesAsync();
 

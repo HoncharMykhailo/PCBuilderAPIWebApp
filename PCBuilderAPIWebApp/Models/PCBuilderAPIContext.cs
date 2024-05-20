@@ -139,7 +139,7 @@ namespace PCBuilderAPIWebApp.Models
 
 
 
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             /*
@@ -587,8 +587,8 @@ namespace PCBuilderAPIWebApp.Models
 
             */
 
-
-
+            
+            /*
             modelBuilder.Entity<Case>(entity =>
             {
                 entity.ToTable("Cases");
@@ -790,12 +790,8 @@ namespace PCBuilderAPIWebApp.Models
             modelBuilder.Entity<ProcessorSocket>().HasKey(b => b.Id);
             modelBuilder.Entity<GpuSocket>().HasKey(b => b.Id);
 
-
-
-
-
+            
+            */
         }
-
-
     }
 }

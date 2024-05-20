@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Intrinsics.Arm;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,14 +25,22 @@ namespace PCBuilderAPIWebApp.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CPUCooler>>> GetCPUCoolers()
         {
-            return await _context.CPUCoolers.ToListAsync();
+            //  return await _context.CPUCoolers.ToListAsync();
+
+            return await _context.CPUCoolers
+                .Include(c => c.Brand)
+                .ToListAsync();
         }
 
         // GET: api/CPUCoolers/5
         [HttpGet("{id}")]
         public async Task<ActionResult<CPUCooler>> GetCPUCooler(int id)
         {
-            var cPUCooler = await _context.CPUCoolers.FindAsync(id);
+            // var cPUCooler = await _context.CPUCoolers.FindAsync(id);
+
+            var cPUCooler = await _context.CPUCoolers
+               .Include(c => c.Brand)
+               .FirstOrDefaultAsync(c => c.Id == id);
 
             if (cPUCooler == null)
             {
@@ -50,6 +59,17 @@ namespace PCBuilderAPIWebApp.Controllers
             {
                 return BadRequest();
             }
+
+
+            var brand = await _context.Brands.FindAsync(cPUCooler.BrandId);
+            if (brand == null)
+            {
+                return NotFound("Brand not found");
+            }
+
+            cPUCooler.Brand = brand;
+
+
 
             _context.Entry(cPUCooler).State = EntityState.Modified;
 
@@ -77,6 +97,14 @@ namespace PCBuilderAPIWebApp.Controllers
         [HttpPost]
         public async Task<ActionResult<CPUCooler>> PostCPUCooler(CPUCooler cPUCooler)
         {
+            var brand = await _context.Brands.FindAsync(cPUCooler.BrandId);
+            if (brand == null)
+            {
+                return NotFound("Brand not found");
+            }
+
+            cPUCooler.Brand = brand;
+
             _context.CPUCoolers.Add(cPUCooler);
             await _context.SaveChangesAsync();
 

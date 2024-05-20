@@ -24,14 +24,26 @@ namespace PCBuilderAPIWebApp.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Ram>>> GetRams()
         {
-            return await _context.Rams.ToListAsync();
+            // return await _context.Rams.ToListAsync();
+
+
+            return await _context.Rams
+                .Include(c => c.Brand)
+                .ToListAsync();
+
         }
 
         // GET: api/Rams/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Ram>> GetRam(int id)
         {
-            var ram = await _context.Rams.FindAsync(id);
+            //var ram = await _context.Rams.FindAsync(id);
+
+
+            var ram = await _context.Rams
+               .Include(c => c.Brand)
+               .FirstOrDefaultAsync(c => c.Id == id);
+
 
             if (ram == null)
             {
@@ -40,7 +52,7 @@ namespace PCBuilderAPIWebApp.Controllers
 
             return ram;
         }
-
+        /*
         // PUT: api/Rams/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -82,6 +94,73 @@ namespace PCBuilderAPIWebApp.Controllers
 
             return CreatedAtAction("GetRam", new { id = ram.Id }, ram);
         }
+        */
+
+
+
+
+        // PUT: api/Rams/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutRam(int id, Ram ram)
+        {
+            if (id != ram.Id)
+            {
+                return BadRequest();
+            }
+
+            // Завантажте об'єкт Brand на основі BrandId
+            var brand = await _context.Brands.FindAsync(ram.BrandId);
+            if (brand == null)
+            {
+                return NotFound("Brand not found");
+            }
+
+            ram.Brand = brand;
+
+            _context.Entry(ram).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!RamExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        // POST: api/Rams
+        [HttpPost]
+        public async Task<ActionResult<Ram>> PostRam(Ram ram)
+        {
+            // Завантажте об'єкт Brand на основі BrandId
+            var brand = await _context.Brands.FindAsync(ram.BrandId);
+            if (brand == null)
+            {
+                return NotFound("Brand not found");
+            }
+
+            // Встановіть властивість Brand на об'єкт Brand
+            ram.Brand = brand;
+
+            _context.Rams.Add(ram);
+
+
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetRam", new { id = ram.Id }, ram);
+        }
+
+
 
         // DELETE: api/Rams/5
         [HttpDelete("{id}")]

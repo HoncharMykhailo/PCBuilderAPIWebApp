@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Intrinsics.Arm;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,14 +26,22 @@ namespace PCBuilderAPIWebApp.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Memory>>> GetMemories()
         {
-            return await _context.Memories.ToListAsync();
+            // return await _context.Memories.ToListAsync();
+
+            return await _context.Memories
+               .Include(c => c.Brand)
+               .ToListAsync();
         }
 
         // GET: api/Memories/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Memory>> GetMemory(int id)
         {
-            var memory = await _context.Memories.FindAsync(id);
+            // var memory = await _context.Memories.FindAsync(id);
+
+            var memory = await _context.Memories
+               .Include(c => c.Brand)
+               .FirstOrDefaultAsync(c => c.Id == id);
 
             if (memory == null)
             {
@@ -51,6 +60,16 @@ namespace PCBuilderAPIWebApp.Controllers
             {
                 return BadRequest();
             }
+
+            var brand = await _context.Brands.FindAsync(memory.BrandId);
+            if (brand == null)
+            {
+                return NotFound("Brand not found");
+            }
+
+            memory.Brand = brand;
+
+
 
             _context.Entry(memory).State = EntityState.Modified;
 
@@ -78,6 +97,17 @@ namespace PCBuilderAPIWebApp.Controllers
         [HttpPost]
         public async Task<ActionResult<Memory>> PostMemory(Memory memory)
         {
+
+            var brand = await _context.Brands.FindAsync(memory.BrandId);
+            if (brand == null)
+            {
+                return NotFound("Brand not found");
+            }
+
+            memory.Brand = brand;
+
+
+
             _context.Memories.Add(memory);
             await _context.SaveChangesAsync();
 

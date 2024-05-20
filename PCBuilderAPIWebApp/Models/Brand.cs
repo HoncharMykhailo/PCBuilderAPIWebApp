@@ -6,7 +6,7 @@
  
     public class Brand
     {
-
+        /*
           public Brand()
        {
            Motherboards = new List<Motherboard>();
@@ -19,10 +19,10 @@
            Rams = new List<Ram>();
        }
      
-
+        */
         public int Id { get; set; }
         public string Name { get; set; }
-
+        /*
         public virtual ICollection<Motherboard> Motherboards { get; set; }
         public virtual ICollection<Case> Cases { get; set; }
         public virtual ICollection<Processor> Processors { get; set; }
@@ -30,6 +30,6 @@
         public virtual ICollection<Gpu> Gpus { get; set; }
         public virtual ICollection<Memory> Memories { get; set; }
         public virtual ICollection<PowerSupply> PowerSupplies { get; set; }
-        public virtual ICollection<Ram> Rams { get; set; }
+        public virtual ICollection<Ram> Rams { get; set; }*/
     }
 }

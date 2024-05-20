@@ -15,7 +15,7 @@ namespace PCBuilderAPIWebApp.Models
     {
         public Motherboard()
         {
-            Cases = new List<Case>();
+       //     Cases = new List<Case>();
         }
         public int Id { get; set; }
         public string Name { get; set; }
@@ -25,17 +25,18 @@ namespace PCBuilderAPIWebApp.Models
         public int MaxRamCapacity { get; set; }
         public int MaxRamSpeed { get; set; }
         public string Chipset { get; set; }
+        public byte[]? ImageData { get; set; }
 
 
-        public virtual FormFactor FormFactor { get; set; }
-        public virtual ProcessorSocket ProcessorSocket { get; set; } 
-        public virtual Brand Brand { get; set; }
-        public virtual GpuSocket GpuSocket { get; set; } 
-        public virtual Processor Processor { get; set; } 
-        public virtual Gpu Gpu { get; set; } 
-        public virtual Ram Ram { get; set; } 
-        public virtual Memory Memory { get; set; } 
-        public virtual CPUCooler CPUCooler { get; set; }
+        public virtual FormFactor? FormFactor { get; set; }
+        public virtual ProcessorSocket? ProcessorSocket { get; set; }
+        public virtual GpuSocket? GpuSocket { get; set; }
+        public virtual Brand? Brand { get; set; }
+        public virtual Processor? Processor { get; set; } 
+        public virtual Gpu? Gpu { get; set; } 
+        public virtual Ram? Ram { get; set; } 
+        public virtual Memory? Memory { get; set; } 
+        public virtual CPUCooler? CPUCooler { get; set; }
        
         public int FormFactorId { get; set; } 
         public int ProcessorSocketId { get; set; } 
@@ -47,7 +48,7 @@ namespace PCBuilderAPIWebApp.Models
         public int? MemoryId { get; set; } 
         public int? CpuCoolerId { get; set; }
 
-        public virtual ICollection<Case> Cases { get; set; }
+     //   public virtual ICollection<Case> Cases { get; set; }
 
     }
 }

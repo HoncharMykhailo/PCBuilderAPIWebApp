@@ -24,34 +24,47 @@ namespace PCBuilderAPIWebApp.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Case>>> GetCases()
         {
-            return await _context.Cases.ToListAsync();
+            return await _context.Cases.Include(c => c.Brand).Include(c => c.FormFactor).ToListAsync();
         }
 
         // GET: api/Cases/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Case>> GetCase(int id)
         {
-            var @case = await _context.Cases.FindAsync(id);
+            var pcCase = await _context.Cases.Include(c => c.Brand).Include(c => c.FormFactor).FirstOrDefaultAsync(c => c.Id == id);
 
-            if (@case == null)
+            if (pcCase == null)
             {
                 return NotFound();
             }
 
-            return @case;
+            return pcCase;
         }
 
         // PUT: api/Cases/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCase(int id, Case @case)
+        public async Task<IActionResult> PutCase(int id, Case pcCase)
         {
-            if (id != @case.Id)
+            if (id != pcCase.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(@case).State = EntityState.Modified;
+            var brand = await _context.Brands.FindAsync(pcCase.BrandId);
+            if (brand == null)
+            {
+                return NotFound("Brand not found");
+            }
+            pcCase.Brand = brand;
+
+            var formFactor = await _context.FormFactors.FindAsync(pcCase.FormFactorId);
+            if (formFactor == null)
+            {
+                return NotFound("FormFactor not found");
+            }
+            pcCase.FormFactor = formFactor;
+
+            _context.Entry(pcCase).State = EntityState.Modified;
 
             try
             {
@@ -73,27 +86,40 @@ namespace PCBuilderAPIWebApp.Controllers
         }
 
         // POST: api/Cases
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Case>> PostCase(Case @case)
+        public async Task<ActionResult<Case>> PostCase(Case pcCase)
         {
-            _context.Cases.Add(@case);
+            var brand = await _context.Brands.FindAsync(pcCase.BrandId);
+            if (brand == null)
+            {
+                return NotFound("Brand not found");
+            }
+            pcCase.Brand = brand;
+
+            var formFactor = await _context.FormFactors.FindAsync(pcCase.FormFactorId);
+            if (formFactor == null)
+            {
+                return NotFound("FormFactor not found");
+            }
+            pcCase.FormFactor = formFactor;
+
+            _context.Cases.Add(pcCase);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCase", new { id = @case.Id }, @case);
+            return CreatedAtAction("GetCase", new { id = pcCase.Id }, pcCase);
         }
 
         // DELETE: api/Cases/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCase(int id)
         {
-            var @case = await _context.Cases.FindAsync(id);
-            if (@case == null)
+            var pcCase = await _context.Cases.FindAsync(id);
+            if (pcCase == null)
             {
                 return NotFound();
             }
 
-            _context.Cases.Remove(@case);
+            _context.Cases.Remove(pcCase);
             await _context.SaveChangesAsync();
 
             return NoContent();

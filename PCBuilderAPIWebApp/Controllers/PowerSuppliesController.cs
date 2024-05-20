@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -24,14 +25,20 @@ namespace PCBuilderAPIWebApp.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PowerSupply>>> GetPowerSupplies()
         {
-            return await _context.PowerSupplies.ToListAsync();
+            // return await _context.PowerSupplies.ToListAsync();
+            return await _context.PowerSupplies
+                 .Include(c => c.Brand)
+                 .ToListAsync();
         }
 
         // GET: api/PowerSupplies/5
         [HttpGet("{id}")]
         public async Task<ActionResult<PowerSupply>> GetPowerSupply(int id)
         {
-            var powerSupply = await _context.PowerSupplies.FindAsync(id);
+            //var powerSupply = await _context.PowerSupplies.FindAsync(id);
+            var powerSupply = await _context.PowerSupplies
+               .Include(c => c.Brand)
+               .FirstOrDefaultAsync(c => c.Id == id);
 
             if (powerSupply == null)
             {
@@ -50,6 +57,17 @@ namespace PCBuilderAPIWebApp.Controllers
             {
                 return BadRequest();
             }
+
+            var brand = await _context.Brands.FindAsync(powerSupply.BrandId);
+            if (brand == null)
+            {
+                return NotFound("Brand not found");
+            }
+
+            powerSupply.Brand = brand;
+
+
+
 
             _context.Entry(powerSupply).State = EntityState.Modified;
 
@@ -92,6 +110,18 @@ namespace PCBuilderAPIWebApp.Controllers
             {
                 return NotFound();
             }
+
+
+
+            var brand = await _context.Brands.FindAsync(powerSupply.BrandId);
+            if (brand == null)
+            {
+                return NotFound("Brand not found");
+            }
+
+            powerSupply.Brand = brand;
+
+
 
             _context.PowerSupplies.Remove(powerSupply);
             await _context.SaveChangesAsync();

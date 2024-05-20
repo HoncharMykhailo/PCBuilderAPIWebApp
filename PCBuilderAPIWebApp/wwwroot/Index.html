@@ -2,42 +2,55 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Informatics-2024-Lab2 PCBuilder</title>
+    <title>PC Builder</title>
     <link rel="stylesheet" href="css/site.css" />
 </head>
 <body>
-    <h1>Informatics-2021-Lab2 Library</h1>
-    <h3>Add FormFactor</h3>
-    <form action="javascript:void(0);" method="POST" onsubmit="addFormFactor()">
-        <input type="text" id="add-name" placeholder="New FormFactor">
-        <input type="text" id="add-sizeCoefficient" placeholder="New size">
+    <h1>PC Builder</h1>
+    <form>
+        <label for="case-dropdown">Case:</label>
+        <select id="case-dropdown"></select><br>
+
+        <label for="motherboard-dropdown">Motherboard:</label>
+        <select id="motherboard-dropdown"></select><br>
+
+        <label for="processor-dropdown">Processor:</label>
+        <select id="processor-dropdown"></select><br>
+
+        <label for="gpu-dropdown">GPU:</label>
+        <select id="gpu-dropdown"></select><br>
+
+        <label for="cpu-cooler-dropdown">CPU Cooler:</label>
+        <select id="cpu-cooler-dropdown"></select><br>
+
+        <label for="ram-dropdown">RAM:</label>
+        <select id="ram-dropdown"></select><br>
+
+        <label for="memory-dropdown">Memory:</label>
+        <select id="memory-dropdown"></select><br>
+
+        <label for="power-supply-dropdown">Power Supply:</label>
+        <select id="power-supply-dropdown"></select><br>
+
         <input type="submit" value="Add">
     </form>
 
-    <div id="editFormFactor">
-        <h3>Edit</h3>
-        <form action="javascript:void(0);" onsubmit="updateFormFactor()">
-            <input type="hidden" id="edit-id">
-            <input type="text" id="edit-name">
-            <input type="text" id="edit-sizeCoefficient">
-            <input type="submit" value="Save">
-            <a onclick="closeInput()" aria-label="Close">&#10006;</a>
-        </form>
+    <div id="details">
+        <h3>Component Details</h3>
+        <p id="case-details"></p>
+        <p id="motherboard-details"></p>
+        <p id="processor-details"></p>
+        <p id="gpu-details"></p>
+        <p id="cpu-cooler-details"></p>
+        <p id="ram-details"></p>
+        <p id="memory-details"></p>
+        <p id="power-supply-details"></p>
     </div>
 
-    <p id="counter"></p>
-
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Size</th>
-        </tr>
-        <tbody id="formFactors"></tbody>
-    </table>
-
-    <script src="js/Lab2.js" asp-append-version="true"></script>
-    <script type="text/javascript">
-        getFormFactors();
-    </script>
+    <div id="summary">
+        <h3>Build Summary</h3>
+        <p id="total-price"></p>
+    </div>
+    <script src="js/Lab2.js"></script>
 </body>
 </html>
