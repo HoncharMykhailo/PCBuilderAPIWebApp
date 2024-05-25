@@ -19,92 +19,6 @@ const componentDetails = {
     memory: {},
     'power-supply': {}
 };
-/*
-async function loadComponents() {
-    try {
-        for (let component in components) {
-            const response = await fetch(`/api/${component}s`);
-            components[component] = await response.json();
-            populateDropdown(component, components[component]);
-        }
-    } catch (error) {
-        console.error('Error loading components:', error);
-    }
-}
-*/
-/*
-function addComponent() {
-    const componentType = document.getElementById('component-type').value;
-    const componentName = document.getElementById('component-name').value;
-    const componentPrice = document.getElementById('component-price').value;
-
-    // Add your logic to handle the component addition
-    console.log(`Adding ${componentType}: ${componentName} with price ${componentPrice}`);
-}
-*/
-/*
-
-async function loadComponents() {
-    try {
-        for (let component in components) {
-            const response = await fetch(`/api/${component}s`);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            components[component] = await response.json();
-            populateDropdown(component, components[component]);
-        }
-    } catch (error) {
-        console.error('Error loading components:', error);
-    }
-}
-*/
-
-/*
-// Функція для завантаження компонентів
-async function loadComponents(url, dropdownId) {
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        const data = await response.json();
-
-        // Отримання масиву об'єктів з властивості $values
-        const items = data.$values;
-
-        // Перевірка, чи items є масивом
-        if (!Array.isArray(items)) {
-            throw new Error('Response is not an array');
-        }
-
-        const dropdown = document.getElementById(dropdownId);
-        dropdown.innerHTML = ''; // Очистити попередні елементи
-
-        items.forEach(item => {
-            const option = document.createElement('option');
-            option.value = item.id;
-            option.textContent = item.name;
-            dropdown.appendChild(option);
-        });
-    } catch (error) {
-        console.error(`Error loading components: ${error.message}`);
-    }
-}
-
-// Виклики для завантаження компонентів
-loadComponents('/api/Cases', 'case-dropdown');
-loadComponents('/api/Motherboards', 'motherboard-dropdown');
-loadComponents('/api/Processors', 'processor-dropdown');
-loadComponents('/api/Gpus', 'gpu-dropdown');
-loadComponents('/api/CpuCoolers', 'cpu-cooler-dropdown');
-loadComponents('/api/Rams', 'ram-dropdown');
-loadComponents('/api/Memories', 'memory-dropdown');
-loadComponents('/api/PowerSupplies', 'power-supply-dropdown');
-
-
-*/
-
 
 async function loadComponents(url, dropdownId) {
     try {
@@ -297,12 +211,27 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 async function displayComponentDetails(componentType, componentId, detailsElement) {
-    try {
+    try
+    {
         const response = await fetch(`/api/${componentType}s/${componentId}`);
+
+
+        if (componentType == 'PowerSupply') {
+             response = await fetch(`/api/PowerSupplies/${componentId}`);
+        }
+        if (componentType == 'Memory') {
+             response = await fetch(`/api/Memories/${componentId}`);
+        }
+
+
+
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const componentDetails = await response.json();
+
+        // Логування деталей компонента
+        console.log(`Loaded ${componentType} details:`, componentDetails);
 
         // Тут ви можете оновити detailsElement з отриманими даними про компонент
 
@@ -411,33 +340,30 @@ async function displayComponentDetails(componentType, componentId, detailsElemen
 
         }
 
-        if (componentType == 'Memory') {
-
+        if (componentType == 'Memory')
+        {
             detailsElement.innerHTML = `
-             <p>======= Memory =======</p>
-            <p>Name: ${componentDetails.name}</p>
-            <p>Brand: ${componentDetails.brand.name}</p>
-            <p>Price: $${componentDetails.price}</p>
-            <p>Description: ${componentDetails.description}</p>
-            <p>Capacity: ${componentDetails.capacity}</p>
-            <p>Type: ${componentDetails.type}</p>
-            <!-- Додайте інші характеристики за необхідності -->
-
-        `;
+                <p>======= Memory =======</p>
+                <p>Name: ${componentDetails.name}</p>
+                <p>Brand: ${componentDetails.brand.name}</p>
+                <p>Price: $${componentDetails.price}</p>
+                <p>Description: ${componentDetails.description}</p>
+                <p>Capacity: ${componentDetails.capacity}</p>
+                <p>Type: ${componentDetails.type}</p>
+            `;
         }
+        else
 
-        if (componentType == 'PowerSupply') {
-
+        if (componentType == 'PowerSupply')
+        {
             detailsElement.innerHTML = `
-             <p>======= PowerSupply =======</p>
-            <p>Name: ${componentDetails.name}</p>
-            <p>Brand: ${componentDetails.brand.name}</p>
-            <p>Price: $${componentDetails.price}</p>
-            <p>Description: ${componentDetails.description}</p>
-            <p>Power: ${componentDetails.power} W</p>
-            <!-- Додайте інші характеристики за необхідності -->
-
-        `;
+                <p>======= Power Supply =======</p>
+                <p>Name: ${componentDetails.name}</p>
+                <p>Brand: ${componentDetails.brand.name}</p>
+                <p>Price: $${componentDetails.price}</p>
+                <p>Description: ${componentDetails.description}</p>
+                <p>Power: ${componentDetails.power} W</p>
+            `;
         }
     }
     catch (error) {
