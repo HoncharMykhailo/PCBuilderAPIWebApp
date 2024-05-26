@@ -1,44 +1,92 @@
-body {
+﻿body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #000; 
+    color: #fff;
     margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 h1, h3 {
     text-align: center;
 }
 
-.pc-builder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.dropdowns, .details, .summary {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    padding: 20px;
-    margin: 10px;
+.main-table {
+    width: 200%;
+    max-width: 3000px;
+    background-color: #20272c; 
+    border: 1px solid #00c1ff;
     border-radius: 5px;
-    width: 80%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    table-layout: fixed;
 }
 
-    .dropdowns label {
-        display: block;
-        margin-top: 10px;
-    }
-
-    .dropdowns select {
-        width: 100%;
-        padding: 5px;
-        margin-top: 5px;
-    }
-
-.details, .summary {
-    width: 80%;
+.left-panel, .right-panel {
+    padding: 20px;
+    vertical-align: top;
 }
 
-    .details div, .summary div {
-        margin-top: 10px;
+.left-panel {
+    width: 25%;
+    border-right: 1px solid #444; 
+}
+
+.right-panel {
+    width: 75%;
+}
+
+.dropdowns label {
+    display: block;
+    margin-top: 10px;
+}
+
+.dropdowns select {
+    width: 100%;
+    padding: 5px;
+    margin-top: 5px;
+}
+
+.details-table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.details-cell {
+    background-color: #444;
+    border: 1px solid #555;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.details {
+    background-color: #444; 
+    border: 1px solid #555;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.summary {
+    background-color: #666; 
+    border: 2px solid #888;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+#pc-builder-form input[type="submit"] {
+    margin-top: 10px; /* Опускаємо кнопку трохи вниз */
+    padding: 10px 20px; /* Задаємо відступи від тексту кнопки */
+    background-color: #ff8c00; /* Колір фону для кнопки */
+    border: none;
+    border-radius: 5px;
+    color: #fff; /* Колір тексту кнопки */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    #pc-builder-form input[type="submit"]:hover {
+        background-color: #ff6a00; /* Колір фону для кнопки при наведенні */
     }

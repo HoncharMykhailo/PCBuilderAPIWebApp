@@ -1,56 +1,143 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>PC Builder</title>
     <link rel="stylesheet" href="css/site.css" />
 </head>
 <body>
-    <h1>PC Builder</h1>
-    <form>
-        <label for="case-dropdown">Case:</label>
-        <select id="case-dropdown"></select><br>
+    <table class="main-table">
+        <tr>
+            <td class="left-panel" style="width: 10%;">
+                <h1>PC Builder</h1>
+                <div class="dropdowns">
+                    <form id="pc-builder-form">
+                        <label for="case-dropdown">Case:</label>
+                        <select id="case-dropdown"></select><br>
 
-        <label for="motherboard-dropdown">Motherboard:</label>
-        <select id="motherboard-dropdown"></select><br>
+                        <label for="motherboard-dropdown">Motherboard:</label>
+                        <select id="motherboard-dropdown" disabled></select><br>
 
-        <label for="processor-dropdown">Processor:</label>
-        <select id="processor-dropdown"></select><br>
+                        <label for="processor-dropdown">Processor:</label>
+                        <select id="processor-dropdown" disabled></select><br>
 
-        <label for="gpu-dropdown">GPU:</label>
-        <select id="gpu-dropdown"></select><br>
+                        <label for="gpu-dropdown">GPU:</label>
+                        <select id="gpu-dropdown" disabled></select><br>
 
-        <label for="cpu-cooler-dropdown">CPU Cooler:</label>
-        <select id="cpu-cooler-dropdown"></select><br>
+                        <label for="cpu-cooler-dropdown">CPU Cooler:</label>
+                        <select id="cpu-cooler-dropdown" disabled></select><br>
 
-        <label for="ram-dropdown">RAM:</label>
-        <select id="ram-dropdown"></select><br>
+                        <label for="ram-dropdown">RAM:</label>
+                        <select id="ram-dropdown" disabled></select><br>
 
-        <label for="memory-dropdown">Memory:</label>
-        <select id="memory-dropdown"></select><br>
+                        <label for="memory-dropdown">Memory:</label>
+                        <select id="memory-dropdown" disabled></select><br>
 
-        <label for="power-supply-dropdown">Power Supply:</label>
-        <select id="power-supply-dropdown"></select><br>
+                        <label for="power-supply-dropdown">Power Supply:</label>
+                        <select id="power-supply-dropdown" disabled></select><br>
 
-        <input type="submit" value="Add">
-    </form>
+                        <input type="submit" value="Add">
+                    </form>
+                </div>
+            </td>
+            <td class="right-panel">
+                <table class="details-table">
+                    <tr>
+                        <td class="details-cell" style="width: 50%;">
+                            <div class="details">
+                                <p id="case-details">Case: -</p>
+                            </div>
 
-    <div id="details">
-        <h3>Component Details</h3>
-        <p id="case-details"></p>
-        <p id="motherboard-details"></p>
-        <p id="processor-details"></p>
-        <p id="gpu-details"></p>
-        <p id="cpu-cooler-details"></p>
-        <p id="ram-details"></p>
-        <p id="memory-details"></p>
-        <p id="power-supply-details"></p>
-    </div>
+                            <div class="details">
+                                <p id="gpu-details">GPU: -</p>
+                            </div>
+                        </td>
+                        <td class="details-cell" style="width: 50%;">
+                            <div class="details">
+                                <p id="motherboard-details">Motherboard: -</p>
+                            </div>
+                        </td>
+                        <td class="details-cell" style="width: 50%;">
 
-    <div id="summary">
-        <h3>Build Summary</h3>
-        <p id="total-price"></p>
-    </div>
+                            <div class="details">
+                                <p id="processor-details">Processor: -</p>
+                            </div>
+                        </td>
+
+
+                        
+                        <td class="details-cell" style="width: 50%;">
+                            <div class="details">
+                                <p id="cpu-cooler-details">CPU Cooler: -</p>
+                            </div>
+                            <div class="details">
+                                <p id="ram-details">RAM: -</p>
+                            </div>
+                        </td>
+                        <td class="details-cell" style="width: 50%;">
+                            <div class="details">
+                                <p id="memory-details">Memory: -</p>
+                            </div>
+                            <div class="details">
+                                <p id="power-supply-details">Power Supply: -</p>
+                            </div>
+                            <div class="summary">
+                                <h3>Build Summary</h3>
+                                <p id="total-price">Total Price: -</p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+
+    <script>
+        document.getElementById('case-dropdown').addEventListener('change', function () {
+            const motherboardDropdown = document.getElementById('motherboard-dropdown');
+            motherboardDropdown.disabled = !this.value;
+            if (!this.value) {
+                resetDropdowns(['motherboard-dropdown', 'processor-dropdown', 'gpu-dropdown', 'cpu-cooler-dropdown', 'ram-dropdown', 'memory-dropdown', 'power-supply-dropdown']);
+            }
+        });
+
+        document.getElementById('motherboard-dropdown').addEventListener('change', function () {
+            const processorDropdown = document.getElementById('processor-dropdown');
+            processorDropdown.disabled = !this.value;
+            if (!this.value) {
+                resetDropdowns(['processor-dropdown', 'gpu-dropdown', 'cpu-cooler-dropdown', 'ram-dropdown', 'memory-dropdown', 'power-supply-dropdown']);
+            }
+        });
+
+        document.getElementById('processor-dropdown').addEventListener('change', function () {
+            const dependentDropdowns = ['gpu-dropdown', 'cpu-cooler-dropdown', 'ram-dropdown', 'memory-dropdown'];
+            dependentDropdowns.forEach(id => {
+                document.getElementById(id).disabled = !this.value;
+            });
+            if (!this.value) {
+                resetDropdowns(dependentDropdowns.concat(['power-supply-dropdown']));
+            }
+        });
+
+        const dependentComponents = ['gpu-dropdown', 'cpu-cooler-dropdown', 'ram-dropdown', 'memory-dropdown'];
+
+        dependentComponents.forEach(component => {
+            document.getElementById(component).addEventListener('change', function () {
+                const allSelected = dependentComponents.every(id => document.getElementById(id).value);
+                document.getElementById('power-supply-dropdown').disabled = !allSelected;
+            });
+        });
+
+        function resetDropdowns(ids) {
+            ids.forEach(id => {
+                const dropdown = document.getElementById(id);
+                dropdown.value = "";
+                dropdown.disabled = true;
+            });
+        }
+    </script>
+
     <script src="js/Lab2.js"></script>
 </body>
 </html>
