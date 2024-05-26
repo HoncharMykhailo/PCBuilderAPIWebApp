@@ -427,11 +427,16 @@ async function displayComponentDetails(componentType, componentId, detailsElemen
             let caseResponse = await fetch(`/api/Cases/${caseDropdown.value}`);
             let caseDet = await caseResponse.json();
             let caseFF = caseDet.formFactor.sizeCoefficient;
+            const motherboardDetailsCell = document.querySelector('.details-motherboard-cell');
             if (caseFF < componentDetails.formFactor.sizeCoefficient) {
               //  alert(`This Motherboard is too big`)
                 detailsElement.innerHTML = `This Motherboard is too big`;
+               
+                motherboardDetailsCell.style.backgroundColor = 'red';
+
             }
             else {
+                motherboardDetailsCell.style.backgroundColor = '';
                 detailsElement.innerHTML = `
                  <p>Motherboard: </p>
                 <p>Name: ${componentDetails.name}</p>
@@ -458,13 +463,18 @@ async function displayComponentDetails(componentType, componentId, detailsElemen
             let motherboardResponse = await fetch(`/api/Motherboards/${motherboardDropdown.value}`);
             let motherboardDet = await motherboardResponse.json();
             let motherboardSocket = motherboardDet.processorSocket.id;
+            const ProcessorDetailsCell = document.querySelector('.details-processor-cell');
             if (motherboardSocket != componentDetails.processorSocket.id) {
                 detailsElement.innerHTML = `This CPU is incompatable with your motherboard `;
+
+                ProcessorDetailsCell.style.backgroundColor = 'red';
+
             }
             else {
+                ProcessorDetailsCell.style.backgroundColor = '';
 
                 detailsElement.innerHTML = `
-             <p>Processor":"</p>
+             <p>Processor: </p>
             <p>Name: ${componentDetails.name}</p>
             <p>Brand: ${componentDetails.brand.name}</p>
             <p>Price: $${componentDetails.price}</p>
@@ -490,6 +500,7 @@ async function displayComponentDetails(componentType, componentId, detailsElemen
             let caseResponse = await fetch(`/api/Cases/${caseDropdown.value}`);
             let caseDet = await caseResponse.json();
             let caseFF = caseDet.formFactor.sizeCoefficient;
+            const gpuDetailsCell = document.querySelector('.details-gpu-cell');
 
             if (motherboardSocket != componentDetails.gpuSocket.id || caseFF < componentDetails.formFactor.sizeCoefficient) {
 
@@ -500,9 +511,11 @@ async function displayComponentDetails(componentType, componentId, detailsElemen
                     detailsElement.innerHTML = `This GPU is too big`;
                 }
                
-            }
+                gpuDetailsCell.style.backgroundColor = 'red';
 
+            }
             else {
+                gpuDetailsCell.style.backgroundColor = '';
 
                 detailsElement.innerHTML = `
              <p>GPU:</p>
@@ -516,11 +529,12 @@ async function displayComponentDetails(componentType, componentId, detailsElemen
             <p>Power demand: ${componentDetails.powerDemand} W</p>
 
 
-         `;
+            `;
             }
         }
 
-        if (componentType == 'CPUCooler') {
+        if (componentType == 'CPUCooler')
+        {
 
             detailsElement.innerHTML = `
              <p>CPU Cooler: </p>
@@ -529,11 +543,8 @@ async function displayComponentDetails(componentType, componentId, detailsElemen
             <p>Price: $${componentDetails.price}</p>
             <p>Description: ${componentDetails.description}</p>
             <p>Power demand: ${componentDetails.powerDemand} W</p>
-
-
-        `;
+            `;
         }
-
         if (componentType == 'Ram') {
 
 
@@ -541,25 +552,38 @@ async function displayComponentDetails(componentType, componentId, detailsElemen
             let processorDet = await processorResponse.json();
             let processorMaxRam = processorDet.maxRAMCapacity;
 
-            if (processorMaxRam < componentDetails.capacity) {
-                detailsElement.innerHTML = `This RAM is incompatable with your CPU `;
+            let motherboardResponse = await fetch(`/api/Motherboards/${processorDropdown.value}`);
+            let motherboardDet = await motherboardResponse.json();
+            let motherboardMaxRam = motherboardDet.maxRamCapacity;
+            let motherboardMaxSpeed = motherboardDet.maxRamSpeed;
+              const ramDetailsCell = document.querySelector('.details-ram-cell');
+
+            if (processorMaxRam < componentDetails.capacity ||
+                motherboardMaxRam < componentDetails.capacity ||
+                motherboardMaxSpeed < componentDetails.speed)
+            {
+                detailsElement.innerHTML = `This RAM is incompatable with your CPU and/or motherboard`;
+                   ramDetailsCell.style.backgroundColor = 'red';
             }
+
+
             else {
+                  ramDetailsCell.style.backgroundColor = '';
 
                 detailsElement.innerHTML = `
-             <p> RAM:</p>
-            <p>Name: ${componentDetails.name}</p>
-            <p>Brand: ${componentDetails.brand.name}</p>
-            <p>Price: $${componentDetails.price}</p>
-            <p>Description: ${componentDetails.description}</p>
-            <p>Power demand: ${componentDetails.powerDemand} W</p>
-            <p>Speed: ${componentDetails.speed} GH</p>
-            <p>Capacity: ${componentDetails.capacity}</p>
+                <p> RAM:</p>
+                <p>Name: ${componentDetails.name}</p>
+                <p>Brand: ${componentDetails.brand.name}</p>
+                <p>Price: $${componentDetails.price}</p>
+                <p>Description: ${componentDetails.description}</p>
+                <p>Power demand: ${componentDetails.powerDemand} W</p>
+                <p>Speed: ${componentDetails.speed} GH</p>
+                <p>Capacity: ${componentDetails.capacity}</p>
 
-        `;
+                `;
             }
-
         }
+        
 
         if (componentType == 'Memory') {
 
@@ -603,21 +627,29 @@ async function displayComponentDetails(componentType, componentId, detailsElemen
             let ramDet = await ramResponse.json();
             let ramPD = ramDet.powerDemand;
 
+            const psDetailsCell = document.querySelector('.details-powersupply-cell');
+
             if (motherboardPD + coolerPD + processorPD + gpuPD + ramPD > componentDetails.power) {
                 let sum = motherboardPD + coolerPD + processorPD + gpuPD + ramPD
                 detailsElement.innerHTML = `This power supply is too weak for this ` + sum + `W build`;
+                psDetailsCell.style.backgroundColor = 'red';
             }
-            else {
+            
+
+       
+            else
+            {
+                psDetailsCell.style.backgroundColor = '';
 
                 detailsElement.innerHTML = `
-             <p> PowerSupply:</p>
-            <p>Name: ${componentDetails.name}</p>
-            <p>Brand: ${componentDetails.brand.name}</p>
-            <p>Price: $${componentDetails.price}</p>
-            <p>Description: ${componentDetails.description}</p>
-            <p>Power: ${componentDetails.power} W</p>
+                 <p> PowerSupply:</p>
+                <p>Name: ${componentDetails.name}</p>
+                <p>Brand: ${componentDetails.brand.name}</p>
+                <p>Price: $${componentDetails.price}</p>
+                <p>Description: ${componentDetails.description}</p>
+                <p>Power: ${componentDetails.power} W</p>
 
-        `;
+            `;
             }
         }
     }

@@ -16,8 +16,9 @@ h1, h3 {
 
 .main-table {
     width: 200%;
+    height: 100vh; /* Збільшена висота таблиці */
     max-width: 3000px;
-    background-color: #20272c; 
+    background-color: #20272c;
     border: 1px solid #00c1ff;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -44,6 +45,7 @@ h1, h3 {
 }
 
 .dropdowns select {
+    border-radius: 5px;
     width: 100%;
     padding: 5px;
     margin-top: 5px;
@@ -61,9 +63,66 @@ h1, h3 {
     padding: 10px;
 }
 
-.details {
-    background-color: #444; 
-    border: 1px solid #555;
+.details-case-cell {
+    background-color: #444;
+    border: 1px solid #999;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.details-gpu-cell {
+    background-color: #444;
+    border: 1px solid #999;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.details-case-cell {
+    background-color: #444;
+    border: 1px solid #999;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.details-motherboard-cell {
+    background-color: #444;
+    border: 1px solid #666;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.details-processor-cell {
+    background-color: #444;
+    border: 1px solid #999;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.details-cpucooler-cell {
+    background-color: #444;
+    border: 1px solid #999;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.details-ram-cell {
+    background-color: #444;
+    border: 1px solid #999;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.details-memory-cell {
+    background-color: #444;
+    border: 1px solid #999;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.details-powersupply-cell {
+    background-color: #444;
+    border: 1px solid #999;
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 10px;
